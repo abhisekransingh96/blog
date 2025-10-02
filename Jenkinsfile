@@ -1,6 +1,6 @@
 pipeline{
     agent any
-    stage {
+    stages {
         stage('setup python vertual env'){
         steps{
             sh '''
@@ -9,11 +9,8 @@ pipeline{
         '''
         }
     }
-    
 
-    }
-    stage{
-        stage ("setup guniorn setup"){
+    stage ("setup guniorn setup"){
         steps{
             sh '''
             chomd +x gunicorn.sh
@@ -21,9 +18,9 @@ pipeline{
             '''
         }
     }
-    }
+    
 
-    stage{
+    
         stage ("setup nginx setup"){
         steps{
             sh '''
@@ -32,5 +29,10 @@ pipeline{
             '''
         }
         }
+    
+
     }
+   
+        
+    
 }
