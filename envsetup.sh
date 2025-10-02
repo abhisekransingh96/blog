@@ -1,5 +1,5 @@
 #!/bin/bash
-if [-d "env"]
+if [-d venv]
 then
  echo "python vertual env exit"
 
@@ -11,7 +11,7 @@ echo $PWD
 source env/bin/activate
 pip3 install requirments.txt
 
-if [-d "logs"]
+if [-d logs]
 then
  echo "log folder exit"
 else
