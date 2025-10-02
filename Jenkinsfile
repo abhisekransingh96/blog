@@ -4,7 +4,7 @@ pipeline{
         stage('setup python vertual env'){
         steps{
             sh '''
-        chomd +x envsetup.sh
+        chmod +x envsetup.sh
         ./envsetup.sh
         '''
         }
@@ -13,7 +13,7 @@ pipeline{
     stage ("setup guniorn setup"){
         steps{
             sh '''
-            chomd +x gunicorn.sh
+            chmod +x gunicorn.sh
             ./gunicorn.sh
             '''
         }
@@ -24,7 +24,7 @@ pipeline{
         stage ("setup nginx setup"){
         steps{
             sh '''
-            chomd +x nginx.sh
+            chmod +x nginx.sh
             ./nginx.sh
             '''
         }
