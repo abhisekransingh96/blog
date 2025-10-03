@@ -1,22 +1,18 @@
 [Unit]
 Description=gunicorn daemon
-Requires=gunicorn.socket
 After=network.target
 
 [Service]
-User=root
+User=jenkins
 Group=www-data
-WorkingDirectory=/var/lib/jenkins/workspace/django-cicd-pipeline/jenkin_python 
+WorkingDirectory=/var/lib/jenkins/workspace/django-cicd-pipeline/jenkin_python
 ExecStart=/var/lib/jenkins/workspace/django-cicd-pipeline/env/bin/gunicorn \
- -- error-logfile /var/lib/jenkins/workspace/django-cicd-pipeline/error.log \
- --workers 3 \
- -- capture-output --log-level debug \
- --bind unix: /run/gunicorn.sock \
- jenkin_python.wsgi:application
-
- ExecStart=/var/lib/jenkins/workspace/django-cicd-pipeline/env/bin/gunicorn --workers 3 --log-level debug --error-logfile /var/lib/jenkins/workspace/django-cicd-pipeline/error.log --bind unix:/run/gunicorn.sock jenkin_python.wsgi:application
-
-
+          --workers 3 \
+          --bind unix:/run/gunicorn.sock \
+          --error-logfile /var/lib/jenkins/workspace/django-cicd-pipeline/error.log \
+          --capture-output \
+          --log-level debug \
+          jenkin_python.wsgi:application
 
 [Install]
 WantedBy=multi-user.target
