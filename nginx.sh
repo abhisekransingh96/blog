@@ -1,13 +1,23 @@
 #!/bin/bash
-sudo cp -rf app.conf /etc/nginx/conf.d
-chmod 710 /var/lib/jenkins/workspace/django-cicd-pipeline
-sudo ln -s /etc/nginx/sites-available/app /etc/nginx/sites-enabled
-sudo nginx -t
 
-sudo systemctl daemon-reload
-sudo systemctl start nginx
+APP_CONF="/var/lib/jenkins/workspace/django-cicd-pipeline/app.conf"
+
+# Copy config to sites-available
+sudo cp -f "$APP_CONF" /etc/nginx/sites-available/app
+
+# Create symlink if missing
+if [ ! -L /etc/nginx/sites-enabled/app ]; then
+    sudo ln -s /etc/nginx/sites-available/app /etc/nginx/sites-enabled/app
+fi
+
+# Test Nginx configuration
+sudo nginx -t || { echo "❌ Nginx test failed"; exit 1; }
+
+# Restart Nginx
+sudo systemctl restart nginx
 sudo systemctl enable nginx
 
-echo "gunicor has started"
+echo "✅ Nginx restarted"
 
-sudo systemctl status nginx
+# Check Gunicorn
+sudo systemctl status gunicorn --no-pager
